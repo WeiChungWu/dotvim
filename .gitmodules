@@ -13,3 +13,6 @@
 [submodule "bundle/SystemVerilog"]
 	path = bundle/SystemVerilog
 	url = https://github.com/WeiChungWu/vim-SystemVerilog.git
+[submodule "bundle/Align"]
+	path = bundle/Align
+	url = https://github.com/vim-scripts/Align.git
