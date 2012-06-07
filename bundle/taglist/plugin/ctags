@@ -1,0 +1,15 @@
+--langdef=systemverilog 
+--langmap=systemverilog:.sv.svh.svi 
+--regex-systemverilog=/^[ \t]*(virtual)?[ \t]*class[ \t]*([a-zA-Z_0-9]+)/\2/c,class/ 
+--regex-systemverilog=/^[ \t]*(virtual)?[ \t]*(protected)?[ \t]*(local)?[ \t]*task[ \t]*.*[ \t]+([a-zA-Z_0-9]*::)?([a-zA-Z_0-9]+)[ \t]*[(]/\5/t,task/ 
+--regex-systemverilog=/^[ \t]*(virtual|static)?[ \t]*(protected)?[ \t]*(local)?[ \t]*function[ \t]*.*?[ \t]+([a-zA-Z_0-9]*::)?([a-zA-Z_0-9]+)[ \t]*[(]/\5/f,function/ 
+--regex-systemverilog=/^[ \t]*`define[ \t]*([a-zA-Z_0-9]+)/\1/d,macro/
+--regex-systemverilog=/^[ \t]*module[ \t]*([a-zA-Z_0-9]+)/\1/m,module/ 
+--regex-systemverilog=/^[ \t]*program[ \t]*([a-zA-Z_0-9]+)/\1/p,program/ 
+--regex-systemverilog=/^[ \t]*interface[ \t]*([a-zA-Z_0-9]+)/\1/i,interface/ 
+--regex-systemverilog=/^[ \t]*clocking[ \t]*([a-zA-Z_0-9]+)/\1/K,clocking/ 
+--regex-systemverilog=/^[ \t]*package[ \t]*([a-zA-Z_0-9]+)/\1/k,package/
+--regex-systemverilog=/^[ \t]*covergroup[ \t]*([a-zA-Z_0-9]+)/\1/g,covergroup/
+--regex-systemverilog=/^[ \t]*typedef[ \t]+enum[ \t]*.*[ \t]+([a-zA-Z_0-9]+)[ \t]*;/\1/n,enum/ 
+--regex-systemverilog=/^[ \t]*typedef[ \t]+[^e][^n][^u][^m].*[ \t]+([a-zA-Z_0-9]+)[ \t]*;/\1/T,typedef/ 
+--systemverilog-kinds=+ctfdmpiKkgnT
