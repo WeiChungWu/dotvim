@@ -1,0 +1,3 @@
+[submodule "bundle/EasyGrep"]
+	path = bundle/EasyGrep
+	url = https://github.com/vim-scripts/EasyGrep.git
