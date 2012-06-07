@@ -7,3 +7,6 @@
 [submodule "bundle/snipmate.vim"]
 	path = bundle/snipmate.vim
 	url = https://github.com/msanders/snipmate.vim.git
+[submodule "bundle/vim-indent-object"]
+	path = bundle/vim-indent-object
+	url = https://github.com/michaeljsmith/vim-indent-object
