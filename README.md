@@ -7,13 +7,13 @@ Fork me on GITHUB  https://github.com/WeiChungWu/dotvim.
 MANUALLY INSTALL
 ----------------
 
-1. Check out from github
+Check out from github
 
      git clone git://github.com/WeiChungWu/dotvim.git ~/.vim
      cd ~/.vim
      git submodule update --init
 
-2. Setup vimrc and gvimrc
+Setup vimrc and gvimrc
 
      cd
      ln -s ~/.vim/vimrc .vimrc
