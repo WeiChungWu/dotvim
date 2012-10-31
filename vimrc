@@ -150,3 +150,11 @@ command! -bang -nargs=+ Gr let @g=""|g/<args>/y G
 command! -bang -nargs=0 Np tabnew|put g
 command! -bang -nargs=0 Nn new|put g
 
+" Set Foldmethod=expr
+function! MyFoldLevel(lnum)
+  let m_fold = (getline(a:lnum)=~'^\x\+') ? 1 : 0
+  return m_fold
+endfunction
+
+command! -bang -nargs=0 Fe set foldmethod=expr|set foldexpr=MyFoldLevel(v:lnum)
+nmap <silent> <F9> :Fe<CR>
