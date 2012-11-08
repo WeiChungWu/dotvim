@@ -146,8 +146,9 @@ let g:snippets_dir = "~/.vim/bundle/SystemVerilog/snippets, ~/.vim/bundle/snipma
 "au BufWinLeave * mkview
 "au BufWinEnter * silent loadview
 
-command! -bang -nargs=+ Gr let @g=""|execute 'g/<args>/y G'|new|setlocal bt=nofile|put! g
-nnoremap <silent> <Leader>nn :redir @g<CR>:g//<CR>:redir END<CR>:new<CR>:put! g<CR>
+command! -bang -nargs=+ Gr let @g=""|execute 'g/<args>/y G'|new|setlocal bt=nofile|put! g|redraw
+nnoremap <silent> <Leader>ng :redir @g<CR>:g//<CR>:redir END<CR>:new<CR>:put! g<CR>:redraw<CR>
+nnoremap <silent> <Leader>nn :redir @g<CR>:silent execute 'g/'.expand("<cword>").'/'<CR>:redir END<CR>:new<CR>:put! g<CR>:redraw<CR>
 
 " Set Foldmethod=expr
 function! MyFoldLevel(lnum)
