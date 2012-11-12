@@ -156,5 +156,14 @@ function! MyFoldLevel(lnum)
   return m_fold
 endfunction
 
-command! -bang -nargs=0 Fe set foldmethod=expr|set foldexpr=MyFoldLevel(v:lnum)
-nmap <silent> <F9> :Fe<CR>
+function! ToggleFoldmethod()
+  if &foldmethod!='manual'
+    set foldmethod=manual
+    normal zE
+  else
+    set foldmethod=expr
+    set foldexpr=MyFoldLevel(v:lnum)
+  endif
+endfunction
+"command! -bang -nargs=0 Fe set foldmethod=expr|set foldexpr=MyFoldLevel(v:lnum)
+nmap <silent> <F9> :call ToggleFoldmethod()<CR>
