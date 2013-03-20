@@ -147,8 +147,8 @@ let g:snippets_dir = "~/.vim/bundle/SystemVerilog/snippets, ~/.vim/bundle/snipma
 "au BufWinEnter * silent loadview
 
 command! -bang -nargs=+ Gr let @g=""|execute 'g/<args>/y G'|new|setlocal bt=nofile|put! g|redraw
-nnoremap <silent> <Leader>ng :redir @g<CR>:g//<CR>:redir END<CR>:new<CR>:put! g<CR>:redraw<CR>
-nnoremap <silent> <Leader>nn :redir @g<CR>:silent execute 'g/'.expand("<cword>").'/'<CR>:redir END<CR>:new<CR>:put! g<CR>:redraw<CR>
+nnoremap <silent> <Leader>ng :redir @g<CR>:g//<CR>:redir END<CR>:new<CR>:setlocal bt=nofile<CR>:put! g<CR>:redraw<CR>
+nnoremap <silent> <Leader>nn :redir @g<CR>:silent execute 'g/'.expand("<cword>").'/'<CR>:redir END<CR>:new<CR>:setlocal bt=nofile<CR>:put! g<CR>:redraw<CR>
 
 " Set Foldmethod=expr
 function! MyFoldLevel(lnum)
@@ -167,3 +167,13 @@ function! ToggleFoldmethod()
 endfunction
 "command! -bang -nargs=0 Fe set foldmethod=expr|set foldexpr=MyFoldLevel(v:lnum)
 nmap <silent> <F9> :call ToggleFoldmethod()<CR>
+
+" Set window size
+function! ToggleWinSize()
+  if &columns=='100'
+    set columns=160
+  else
+    set columns=100
+  endif
+endfunction
+nmap <silent> <F12> :call ToggleWinSize()<CR>
