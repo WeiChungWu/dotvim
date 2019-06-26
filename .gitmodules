@@ -1,6 +1,3 @@
-[submodule "bundle/EasyGrep"]
-	path = bundle/EasyGrep
-	url = https://github.com/vim-scripts/EasyGrep.git
 [submodule "bundle/supertab"]
 	path = bundle/supertab
 	url = https://github.com/ervandew/supertab
@@ -25,3 +22,6 @@
 [submodule "bundle/vim-powerline"]
 	path = bundle/vim-powerline
 	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "bundle/vim-easygrep"]
+	path = bundle/vim-easygrep
+	url = https://github.com/WeiChungWu/vim-easygrep.git
