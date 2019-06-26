@@ -1,0 +1,11 @@
+#!/bin/csh -f
+if(-d ~/.vviimm_bbaakk) then
+  echo "Delete ~/.vviimm_bbaakk"
+  \rm -rf ~/.vviimm_bbaakk
+end
+mv ~/.vim ~/.vviimm_bbaakk
+mv ~/.vimrc ~/.vviimm_bbaakk
+mv ~/.gvimrc ~/.vviimm_bbaakk
+ln -s ~/dotVim ~/.vim
+ln -s ~/dotVim/vimrc ~/.vimrc
+ln -s ~/dotVim/gvimrc ~/.gvimrc

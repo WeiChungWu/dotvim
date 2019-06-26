@@ -32,6 +32,8 @@ noremap Q @q
 "	\ endif <CR>
 map gy gT
 map gb gT
+map <C-j> <C-w>j
+map <C-k> <C-w>k
 
 if &t_Co > 2 || has("gui_running")
   " syntax on
@@ -64,6 +66,12 @@ if has("autocmd")
 
   augroup END
 
+  " autocmd FileType make setlocal noexpandtab
+  autocmd FileType perl setlocal shiftwidth=2
+
+  "Ack search results show a mix of relative and absolute paths, making them hard to read 
+  "autocmd BufAdd * execute "cd" fnameescape(getcwd())
+
 else
 
   set autoindent		" always set autoindenting on
@@ -74,8 +82,6 @@ endif " has("autocmd")
 " file it was loaded from, thus the changes you made.
 command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
 	 	\ | wincmd p | diffthis
-
-autocmd FileType make setlocal noexpandtab
 
 " Taglist setting
 let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
@@ -128,19 +134,36 @@ nmap <silent> <F7> :call ToggleList("Quickfix List", 'c')<CR>
 " EasyGrep setting
 let g:EasyGrepMode = 2
 let g:EasyGrepRecursive= 1
+let g:EasyGrepJumpToMatch = 0
+" If external tool 'ack' is used [TODO]
+if executable('ack')
+  set grepprg=ack\ --nopager\ --nocolor\ --nogroup\ --column
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+  let g:EasyGrepCommand = 1
+  "let g:EasyGrepEnableLogging = 1
+endif
 
 " bufexplorer setting
 let g:bufExplorerSplitBelow = 1
 
 " mark setting
-nmap <Leader>M <Plug>MarkToggle
-nmap <Leader>N <Plug>MarkAllClear
+"nmap <Leader>M <Plug>MarkToggle
+"nmap <Leader>N <Plug>MarkAllClear
 
 " Supertab setting
 let g:SuperTabDefaultCompletionType = "context"
 
 " SnipMate setting
 let g:snippets_dir = "~/.vim/bundle/SystemVerilog/snippets, ~/.vim/bundle/snipmate.vim/snippets"
+
+" YouCompleteMe setting
+set encoding=utf-8
+
+" ack.vim setting
+if executable('ack')
+  nnoremap <silent> <Leader>kk :silent execute 'Ack! '.expand("<cword>")<CR>
+endif
+
 
 " For save fold information
 "au BufWinLeave * mkview
@@ -155,7 +178,6 @@ function! MyFoldLevel(lnum)
   let m_fold = (getline(a:lnum)=~'^\x\+') ? 1 : 0
   return m_fold
 endfunction
-
 function! ToggleFoldmethod()
   if &foldmethod!='manual'
     set foldmethod=manual
@@ -169,11 +191,62 @@ endfunction
 nmap <silent> <F9> :call ToggleFoldmethod()<CR>
 
 " Set window size
-function! ToggleWinSize()
+function! ToggleWinWidth()
   if &columns=='100'
     set columns=160
   else
     set columns=100
   endif
 endfunction
-nmap <silent> <F12> :call ToggleWinSize()<CR>
+function! ToggleWinHeight()
+  if &lines!='40'
+    set lines=40
+  endif
+endfunction
+nmap <silent> <F12> :call ToggleWinWidth()<CR>
+nmap <silent> <S-F12> :call ToggleWinHeight()<CR>
+
+" Set CursorLine CoursorColumn
+function! ToggleCursorLine()
+  if &cursorline||&cursorcolumn
+    set nocursorline
+    set nocursorcolumn
+  else
+    set cursorline
+    set cursorcolumn
+  endif
+endfunction
+nmap <silent> <F11> :call ToggleCursorLine()<CR>
+nnoremap <silent> <Leader>sv :setfiletype svtb_log<CR>
+
+" Set window font
+let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
+let s:minfontsize = 10
+let s:maxfontsize = 16
+function! AdjustFontSize(amount)
+  if has("gui_running") && has("gui_gtk2")
+    let fontname = substitute(&guifont, s:pattern, '\1', '')
+    let cursize = substitute(&guifont, s:pattern, '\2', '')
+    let newsize = cursize + a:amount
+    if (newsize >= s:minfontsize) && (newsize <= s:maxfontsize)
+      let newfont = fontname . newsize
+      let &guifont = newfont
+    endif
+  else
+    echoerr "You need to run the GTK2 version of Vim to use this function."
+  endif
+endfunction
+
+let s:FontSizeToggled = 0
+function! ToggleWinFont()
+  if has("gui_running") && has("gui_gtk2")
+      if s:FontSizeToggled == 0
+          call AdjustFontSize(2)
+          let s:FontSizeToggled = 1
+      else
+          call AdjustFontSize(-2)
+          let s:FontSizeToggled = 0
+      endif
+  endif
+endfunction
+nmap <silent> <F10> :call ToggleWinFont()<CR>:redraw!<CR>
