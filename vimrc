@@ -133,10 +133,15 @@ nmap <silent> <F7> :call ToggleList("Quickfix List", 'c')<CR>
 
 " EasyGrep setting
 let g:EasyGrepMode = 2
-let g:EasyGrepRecursive= 1
+let g:EasyGrepRecursive = 1
 let g:EasyGrepJumpToMatch = 0
-" If external tool 'ack' is used [TODO]
-if executable('ack')
+" If external tool 'ag' or 'ack' is used
+if executable('ag')
+  set grepprg=ag\ --vimgrep
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+  let g:EasyGrepCommand = 1
+  "let g:EasyGrepEnableLogging = 1
+elseif executable('ack')
   set grepprg=ack\ --nopager\ --nocolor\ --nogroup\ --column
   set grepformat=%f:%l:%c:%m,%f:%l:%m
   let g:EasyGrepCommand = 1
@@ -160,8 +165,9 @@ let g:snippets_dir = "~/.vim/bundle/SystemVerilog/snippets, ~/.vim/bundle/snipma
 set encoding=utf-8
 
 " ack.vim setting
-if executable('ack')
-  nnoremap <silent> <Leader>kk :silent execute 'Ack! '.expand("<cword>")<CR>
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+  nnoremap <silent> <Leader>ff :silent execute 'Ack! --sv '.expand("<cword>")<CR>
 endif
 
 
@@ -170,10 +176,10 @@ endif
 "au BufWinEnter * silent loadview
 
 command! -bang -nargs=+ Gr let @g=""|execute 'g/<args>/y G'|new|setlocal bt=nofile|put! g|redraw
-nnoremap <silent> <Leader>ng :redir @g<CR>:g//<CR>:redir END<CR>:new<CR>:setlocal bt=nofile<CR>:put! g<CR>:redraw<CR>
-nnoremap <silent> <Leader>nn :redir @g<CR>:silent execute 'g/'.expand("<cword>").'/'<CR>:redir END<CR>:new<CR>:setlocal bt=nofile<CR>:put! g<CR>:redraw<CR>
+nnoremap <silent> <Leader>ng :redir @g<CR>:silent g//<CR>:redir END<CR>:new<CR>:setlocal bt=nofile<CR>:put! g<CR>:redraw!<CR>
+nnoremap <silent> <Leader>nn :redir @g<CR>:silent execute 'g/'.expand("<cword>").'/'<CR>:redir END<CR>:new<CR>:setlocal bt=nofile<CR>:put! g<CR>:redraw!<CR>
 
-" Set Foldmethod=expr
+" Set Foldexpr
 function! MyFoldLevel(lnum)
   let m_fold = (getline(a:lnum)=~'^\x\+') ? 1 : 0
   return m_fold
@@ -250,3 +256,20 @@ function! ToggleWinFont()
   endif
 endfunction
 nmap <silent> <F10> :call ToggleWinFont()<CR>:redraw!<CR>
+
+let s:ColorSchemeToggled = 0
+function! ToggleColorScheme()
+  if has("gui_running") && has("gui_gtk2")
+      if s:ColorSchemeToggled == 0
+          colorscheme gruvbox
+          let s:ColorSchemeToggled = 1
+      elseif s:ColorSchemeToggled == 1
+          colorscheme dracula
+          let s:ColorSchemeToggled = 2
+      else
+          colorscheme molokai
+          let s:ColorSchemeToggled = 0
+      endif
+  endif
+endfunction
+nmap <silent> <F6> :call ToggleColorScheme()<CR>:redraw!<CR>

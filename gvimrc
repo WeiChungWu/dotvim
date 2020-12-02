@@ -34,16 +34,16 @@ if version >= 500
   if has("gui_running")
       if has("gui_gtk2")
           "set guifont=Courier\ New\ 16
-          "set guifont=Bitstream\ Vera\ Sans\ Mono\ 14
           "set guifont=Monospace\ 14
-          if system("echo $SGE_O_HOST") =~ 'eod2ea'
-              "set guifont=WenQuanYi\ Micro\ Hei\ Mono\ 11
-              set guifont=DejaVu\ Sans\ Mono\ 11
-          elseif system("echo $SGE_O_HOST") =~ 'eodea'
-              set guifont=Bitstream\ Vera\ Sans\ Mono\ 11
-          else
-              set guifont=Bitstream\ Vera\ Sans\ Mono\ 14
-          endif
+          "if system("echo $SGE_O_HOST") =~ 'eod2ea'
+          "    set guifont=DejaVu\ Sans\ Mono\ 11
+          "elseif system("echo $SGE_O_HOST") =~ 'eodea'
+          "    set guifont=Bitstream\ Vera\ Sans\ Mono\ 11
+          "else
+              "set guifont=Bitstream\ Vera\ Sans\ Mono\ 14
+              "set guifont=DejaVu\ Sans\ Mono\ 14
+              set guifont=Inconsolata\ Medium\ 14
+          "endif
       elseif has("gui_photon")
           set guifont=Courier\ New:s16
       elseif has("gui_kde")
@@ -78,7 +78,7 @@ if version >= 500
    "endif
    
    "colorscheme darkblue
+   "colorscheme gruvbox
    colorscheme molokai
 
 endif
-
